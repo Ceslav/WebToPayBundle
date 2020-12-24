@@ -17,9 +17,15 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('evp_web_to_pay');
+        $treeBuilder = new TreeBuilder('evp_web_to_payr');
 
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // symfony < 4.2 support
+            $rootNode = $treeBuilder->root('evp_web_to_pay');
+        }
+        
         $rootNode
             ->children()
                 ->arrayNode('credentials')
